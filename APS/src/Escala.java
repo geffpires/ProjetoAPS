@@ -16,6 +16,16 @@ public class Escala {
 		return null;
 		
 	}
+// Método de verifação se está funcionando
+	public Boolean positivo() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+// Método que verifica se os processos estão escalonados
+	public boolean escalonamento() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 
 }
