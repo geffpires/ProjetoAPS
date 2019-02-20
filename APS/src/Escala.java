@@ -16,7 +16,7 @@ public class Escala {
 		return null;
 		
 	}
-// Método de verifação se está funcionando
+// Método de verifação de funcionamento
 	public Boolean positivo() {
 		// TODO Auto-generated method stub
 		return true;
