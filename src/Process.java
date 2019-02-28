@@ -1,4 +1,3 @@
-import Escalonador.Escalonador;
 
 public class Process {
 	
@@ -6,16 +5,16 @@ public class Process {
 	private int start;
 	private int runtime;
 	private char status;
-	private int onRun;
+	private int onRun = 0;
 	private String feedback = "";
 	
-	public Process(String name, int start, int runtime, int onRun) {
-		super();
+	public Process(String name, int start, int runtime) {
 		this.name = name;
 		this.start = start;
 		this.runtime = runtime;
-		this.onRun = onRun;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -29,6 +28,7 @@ public class Process {
 		return runtime;
 	}
 	
+	// isso ja vai ser feito no escalonador
 	public void setRunTime() {
 		this.runtime--;
 		if (this.runtime == 0) {
@@ -40,11 +40,6 @@ public class Process {
 		return this.onRun;
 	}
 	
-	public void sairDoEscalonador(Escalonador e) {
-		if (this.getOnRun() == e.getQuant()) {
-			//ir pro final da lista de waiting
-		}
-	}
 
 	public String getFeedback() {
 		return feedback;
@@ -61,5 +56,7 @@ public class Process {
 	public void addFeedback(char statusRun) {
 		this.feedback += statusRun;
 	}
+	
+	public boolean 
 
 }

@@ -1,5 +1,4 @@
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class Escalonador {
 	public Escalonador(int quant) {
 		
 		this.quant = quant;
-		inexistente = new ArrayList<Process>();
 		waiting = new ArrayList<Process>();
 		finished = new ArrayList<Process>();
 		novos = new ArrayList<Process>();
@@ -30,23 +28,19 @@ public class Escalonador {
 	public int getQuant() {
 		return this.quant;
 	}
-	public void addProcess(Process p) {
+	public void addProcess(String nome, int start, int endRun) {
+		Process p = new Process(nome,start,endRun);
+		p.setStatus('I');
 		this.processos.add(p);
 	}
+	
 	public List<Process> getNovos() {
 		return novos;
 	}
 	
 	public void addNovos(Process novo) {
+		novo.setStatus('W');
 		this.novos.add(novo);
-	}
-
-	public List<Process> getInexistente() {
-		return inexistente;
-	}
-
-	public void addInexistente(Process newInexistente) {
-		this.inexistente.add(newInexistente);
 	}
 
 	public List<Process> getRuning() {
@@ -62,6 +56,7 @@ public class Escalonador {
 	}
 
 	public void addWaiting(Process newWaiting) {
+		newWaiting.setStatus('W');
 		this.waiting.add(newWaiting);
 	}
 
@@ -70,6 +65,7 @@ public class Escalonador {
 	}
 
 	public void addFinished(Process newFinished) {
+		newFinished.setStatus('F');
 		this.finished.add(newFinished);
 	}
 	
@@ -98,35 +94,39 @@ public class Escalonador {
 		}
 		return false;
 	}
-
-	public void mudarDeLista(List<Process> p, List<Process> i) {
-		
-	}
 	
 	public void run() {
 
-		while (this.time < 0) {
+		while (this.processos.size() == 0) {
 			
 			for (Process p: this.processos) {
 				if (p.getStart() == this.time) {
 					this.addNovos(p);
-					this.processos.remove(p);
+					//this.processos.remove(p);
 				}
 			}
-			while (true){
+			if () {
+				
+			}
+			if (this.getProcessosEmExecucao().size() > 0) {
 				if (this.getProcessosEmExecucao().get(0).getOnRun() == quant) {
-		
-					this.getProcessosEmExecucao().get(0).setStatus('W');
+					
+					if (this.getProcessosEmExecucao().get(0).) {
+						
+					}
+						
 					this.addWaiting(this.getProcessosEmExecucao().get(0));
-					break;
+					this.getProcessosEmExecucao().remove(0);
 				}
+			}
+			if (this.getProcessosEmExecucao().size() > 0) {
 				this.getProcessosEmExecucao().get(0).setRunTime();
+				if ( == ) {
+					
+				}
 			}
 			
 			this.time++;
-			if (this.fimEscalonador()) {
-				this.time = -1;
-			}
 		}
 	}
 	
