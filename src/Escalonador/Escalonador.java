@@ -95,6 +95,10 @@ public class Escalonador {
 		}
 	}
 	
+	public void mudarDeLista(List<Process> p, List<Process> i) {
+		
+	}
+	
 	public void run() {
 
 		while (time < 0) {
