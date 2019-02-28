@@ -1,4 +1,4 @@
-
+import Escalonador.Escalonador;
 
 public class Process {
 	
@@ -35,6 +35,15 @@ public class Process {
 			this.setStatus('F');
 		}
 		this.addFeedback(this.getStatus());
+	}
+	public int getOnRun() {
+		return this.onRun;
+	}
+	
+	public void sairDoEscalonador(Escalonador e) {
+		if (this.getOnRun() == e.getQuant()) {
+			//ir pro final da lista de waiting
+		}
 	}
 
 	public String getFeedback() {
