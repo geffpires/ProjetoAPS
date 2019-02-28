@@ -1,7 +1,9 @@
+package Escalonador;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Escala {
+public class Escalonador {
 	
 	private List<Process> processos;
 	private List<Process> novos;
