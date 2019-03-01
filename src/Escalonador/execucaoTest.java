@@ -6,7 +6,7 @@ public class execucaoTest {
 		// TODO Auto-generated method stub
 		Escalonador e;
 		try {
-			e = new Escalonador(3);
+			e = new Escalonador(2);
 			e.addProcess("p1", 0, 3);
 			e.addProcess("p2", 3, 6);
 			e.addProcess("p3", 6, 9);
