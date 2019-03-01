@@ -12,7 +12,7 @@ public class Escala {
 	private int time = 0;
 	private int quant;
 	
-	public Escalonador(int quant) {
+	public Escala(int quant) {
 		this.quant = quant;
 		inexistente = new ArrayList<Process>();
 		runing = new ArrayList<Process>();
