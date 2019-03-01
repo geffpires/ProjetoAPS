@@ -5,7 +5,7 @@ public class Process {
 	private String name;
 	private int start;
 	private int runtime;
-	private char status;
+	private String status;
 	private int onRun = 0;
 	private String feedback = "";
 	
@@ -17,6 +17,17 @@ public class Process {
 
 
 
+	public Process() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public void incrementOnRun() {
+		this.onRun++;
+	}
+	public void decrementRunTime() {
+		this.runtime--;
+	}
 	public String getName() {
 		return name;
 	}
@@ -30,34 +41,40 @@ public class Process {
 	}
 	
 	// isso ja vai ser feito no escalonador
-	public void setRunTime() {
-		this.runtime--;
-		if (this.runtime == 0) {
-			this.setStatus('F');
-		}
-		this.addFeedback(this.getStatus());
-	}
+	
 	public int getOnRun() {
 		return this.onRun;
 	}
 	
-
 	public String getFeedback() {
 		return feedback;
 	}
 	
-	public char getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public void addFeedback(char statusRun) {
-		this.feedback += statusRun;
+	public void addFeedback() {
+		this.feedback += this.getStatus();
 	}
 	
-	public boolean 
+	public boolean endRun() {
+		if (runtime <= 0) {
+			return true;
+		}
+		return false;
+	}
+
+
+
+	public void setOnRun() {
+		this.onRun = 0;
+		// TODO Auto-generated method stub
+		
+	}
 
 }
