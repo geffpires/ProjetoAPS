@@ -15,7 +15,11 @@ public class Escalonador {
 	private int time = 0;
 	private int quant;
 	
-	public Escalonador(int quant) {
+	public Escalonador(int quant) throws EscalonadorException{
+		
+		if (quant < 1) {
+			throw new EscalonadorException ();
+		}
 		
 		this.quant = quant;
 		this.inexistente = new ArrayList<Process>();
