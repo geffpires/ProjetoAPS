@@ -37,7 +37,9 @@ public class testEscalonador {
 		
 		
 		if(escalonador.graficoProcess() == resultado) {
-			
+			escalonador.fimEscalonador();
+		} else {
+			escalonador.fimEscalonador();
 		}
 		
 	
@@ -59,13 +61,16 @@ public class testEscalonador {
 					+"p3: IIIWWWRRRF";
 			
 			if(escalonador.graficoProcess() == resultado) {
-				
+				escalonador.fimEscalonador();
+			} else {
+				escalonador.fimEscalonador();
 			}
 			
 		
 		}
 		// PO1 RRF
-		// P02 WWWRRRF
+		// P02 WWWRRRF 
+		
 		@Test 
 		public void testRun3() {
 			escalonador.addProcess("P01", 0, 3);
@@ -77,18 +82,32 @@ public class testEscalonador {
 					+"p2: WWWRRRF\n";
 			
 			if(escalonador.graficoProcess() == resultado) {
-				
+				escalonador.fimEscalonador();
+			} else {
+				escalonador.fimEscalonador();
 			}
 			
+		}
+		
+		
+		// P01 0 7
+		// PO2 3 5
+		@Test 
+		public void testRun4() {
+			escalonador.addProcess("P01", 0, 7);
+			escalonador.addProcess("P02", 3, 5);
 			
-
-
-
-
-
-
-
-
+			
+			String resultado = ""
+					+"p1: RRRWWRRRRF\n"
+					+"p2: IIIRRF\n";
+			
+			if(escalonador.graficoProcess() == resultado) {
+				escalonador.fimEscalonador();
+			} else {
+				escalonador.fimEscalonador();
+			}
+			
 		}
 }
 
