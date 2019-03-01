@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 
 class testEscalo {
-	Escala escalonador = new Escala();
+	Escala escalonador = new Escala(3);
 	@Test
 	public void funcionaEscalonador() {
 		;
