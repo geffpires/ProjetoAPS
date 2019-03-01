@@ -25,6 +25,19 @@ public class Escalonador {
 		this.novos = new ArrayList<Process>();
 		
 	}
+	public void orderListProcess() {
+		Process aux = new Process();
+		for (int x=0; x < finished.size(); x++) {
+			for (int y= x+1; y< finished.size(); y++) {
+				if (finished.get(x).getOrder() > finished.get(y).getOrder()) {
+					aux = finished.get(x);
+					finished.set(x, finished.get(y));
+					finished.set(y, aux);
+				}
+			}
+		}
+		
+	}
 	
 	public List<Process> getProcess(){
 		return this.processos;
@@ -115,30 +128,32 @@ public class Escalonador {
 	public void run2() {
 		Process pro = new Process();
 		int contador=0;
+		int actualProcess = 0;
 		while (!this.fimEscalonador()) {
 			
 			int y=0;
 			for (int x=0;x<processos.size();x++) {
-				System.out.println("rodou "+y);
+				//System.out.println("rodou "+y);
 				if (processos.get(x).getStart() == this.time) {
 					pro = processos.get(x);
+					pro.setOrder(actualProcess++);
 					this.addNovos(pro);
 					this.processos.remove(x);
 					x--;
 					y++;
 				}
 			}
-			System.out.println("contador: "+contador);
+			//System.out.println("contador: "+contador);
 			if(!isRunning()) {
 				if(this.running==null) {
 					this.nextRunning();
 				}
 				else if(this.running.endRun()) {
-					System.out.println("finalizado");
+					//System.out.println("finalizado");
 					this.addFinished(running);
 					this.nextRunning();
 				}else if(exceedRunning()) {
-					System.out.println("excedeu");
+					//System.out.println("excedeu");
 					running.setOnRun();
 					this.addWaiting(running);
 					this.nextRunning();
@@ -166,12 +181,14 @@ public class Escalonador {
 				running.decrementRunTime();
 				running.incrementOnRun();
 				this.running.addFeedback();
-				System.out.println(this.running.getName()+"  "+this.running.getFeedback()+"    "+running.getRuntime());
+				//System.out.println(this.running.getName()+"  "+this.running.getFeedback()+"    "+running.getRuntime());
 			}
 			this.time++;
 			this.allProcess();
 			contador++;
+			
 		}
+		this.orderListProcess();
 	}
 	private boolean verificaNovos() {
 		if(this.novos.size()>0) {
