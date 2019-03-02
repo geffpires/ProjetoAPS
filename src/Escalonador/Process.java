@@ -7,12 +7,29 @@ public class Process {
 	private int runtime;
 	private String status;
 	private int onRun = 0;
-	private String feedback = "";
+	private String feedback;
+	private int order;
+	
 	
 	public Process(String name, int start, int runtime) {
 		this.name = name;
 		this.start = start;
 		this.runtime = runtime;
+		this.order = 0;
+		this.feedback = name+": ";
+		
+		}
+
+
+
+	public int getOrder() {
+		return order;
+	}
+
+
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 

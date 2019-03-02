@@ -4,14 +4,19 @@ public class execucaoTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Escalonador e = new Escalonador(3);
-		e.addProcess("p1", 0, 5);
-		e.addProcess("p2", 3, 3);
-		e.addProcess("p3", 4, 3);
-		System.out.println(e.getProcess().get(0).getFeedback());
-		e.run2();
-		//System.out.println(e.size());
-		System.out.println("ok");
-		System.out.println(e.graficoProcess());
+		Escalonador e;
+		try {
+			e = new Escalonador(2);
+			e.addProcess("p1", 0, 3);
+			e.addProcess("p2", 3, 6);
+			e.addProcess("p3", 6, 9);
+			e.run2();
+			//System.out.println(e.size());
+			System.out.println(e.graficoProcess());
+		} catch (EscalonadorException e1) {
+			// TODO Auto-generated catch block
+			System.out.println(e1.getMessage());
+		}
+		
 	}
 }

@@ -12,10 +12,17 @@ public class Escalonador {
 	private List<Process> waiting;
 	private List<Process> finished;
 	private Process running;
+	public Process getRunning() {
+		return running;
+	}
 	private int time = 0;
 	private int quant;
 	
-	public Escalonador(int quant) {
+	public Escalonador(int quant) throws EscalonadorException{
+		
+		if (quant < 1) {
+			throw new EscalonadorException ("O escalonador não pode ter o cont negativo");
+		}
 		
 		this.quant = quant;
 		this.inexistente = new ArrayList<Process>();
@@ -23,6 +30,19 @@ public class Escalonador {
 		this.waiting = new ArrayList<Process>();
 		this.finished = new ArrayList<Process>();
 		this.novos = new ArrayList<Process>();
+		
+	}
+	public void orderListProcess() {
+		Process aux = new Process();
+		for (int x=0; x < finished.size(); x++) {
+			for (int y= x+1; y< finished.size(); y++) {
+				if (finished.get(x).getOrder() > finished.get(y).getOrder()) {
+					aux = finished.get(x);
+					finished.set(x, finished.get(y));
+					finished.set(y, aux);
+				}
+			}
+		}
 		
 	}
 	
@@ -35,6 +55,10 @@ public class Escalonador {
 	public int getQuant() {
 		return this.quant;
 	}
+	public void setQuant(int quant) {
+		this.quant = quant;
+	}
+	
 	public void addProcess(String nome, int start, int endRun) {
 		Process p = new Process(nome,start,endRun);
 		p.setStatus("I");
@@ -111,67 +135,103 @@ public class Escalonador {
 		}
 		return grafico;
 	}
-	
+	Process pro = new Process();
+	int contador=0;
+	int actualProcess = 0;
 	public void run2() {
-		Process pro = new Process();
-		int contador=0;
+		
 		while (!this.fimEscalonador()) {
 			
-			int y=0;
 			for (int x=0;x<processos.size();x++) {
-				System.out.println("rodou "+y);
+				//System.out.println("rodou "+y);
 				if (processos.get(x).getStart() == this.time) {
 					pro = processos.get(x);
+					pro.setOrder(actualProcess++);
 					this.addNovos(pro);
 					this.processos.remove(x);
 					x--;
-					y++;
 				}
 			}
-			System.out.println("contador: "+contador);
+			//System.out.println("contador: "+contador);
 			if(!isRunning()) {
 				if(this.running==null) {
 					this.nextRunning();
 				}
 				else if(this.running.endRun()) {
-					System.out.println("finalizado");
+					//System.out.println("finalizado");
 					this.addFinished(running);
 					this.nextRunning();
 				}else if(exceedRunning()) {
-					System.out.println("excedeu");
+					//System.out.println("excedeu");
+					running.setOnRun();
+					this.addWaiting(running);
+					this.nextRunning();
+				}else if(novos.size()>0) {
 					running.setOnRun();
 					this.addWaiting(running);
 					this.nextRunning();
 				}
+				
 			}
-			/*if (this.getProcessosEmExecucao().size() > 0) {
-				System.out.println("if rodando");
-				if (this.getProcessosEmExecucao().get(0).endRun()) {
-					pro = this.getProcessosEmExecucao().get(0);
-					this.addFinished(pro);
-					this.getProcessosEmExecucao().remove(0);
-					
-				}else if (this.getProcessosEmExecucao().get(0).getOnRun() == quant) {
-					this.getProcessosEmExecucao().get(0).setOnRun();
-					pro = this.getProcessosEmExecucao().get(0);
-					this.addWaiting(pro);
-					this.getProcessosEmExecucao().remove(0);
-						
-				}
-				if (this.getProcessosEmExecucao().size() > 0) {
-					this.getProcessosEmExecucao().get(0).setRunTime();
-				}	
-			}*/
+			
 			if(running!=null) {
 				running.decrementRunTime();
 				running.incrementOnRun();
 				this.running.addFeedback();
-				System.out.println(this.running.getName()+"  "+this.running.getFeedback()+"    "+running.getRuntime());
+				//System.out.println(this.running.getName()+"  "+this.running.getFeedback()+"    "+running.getRuntime());
 			}
 			this.time++;
 			this.allProcess();
 			contador++;
+			
 		}
+		this.orderListProcess();
+	}
+	public void runTesteParte1() {
+		for (int x=0;x<processos.size();x++) {
+			//System.out.println("rodou "+y);
+			if (processos.get(x).getStart() == this.time) {
+				pro = processos.get(x);
+				pro.setOrder(actualProcess++);
+				this.addNovos(pro);
+				this.processos.remove(x);
+				x--;
+			}
+		}
+	}
+	public void runTesteParte2() {
+		
+		//System.out.println("contador: "+contador);
+		if(!isRunning()) {
+			if(this.running==null) {
+				this.nextRunning();
+			}
+			else if(this.running.endRun()) {
+				//System.out.println("finalizado");
+				this.addFinished(running);
+				this.nextRunning();
+			}else if(exceedRunning()) {
+				//System.out.println("excedeu");
+				running.setOnRun();
+				this.addWaiting(running);
+				this.nextRunning();
+			}else if(novos.size()>0) {
+				running.setOnRun();
+				this.addWaiting(running);
+				this.nextRunning();
+			}
+		}
+		
+		if(running!=null) {
+			running.decrementRunTime();
+			running.incrementOnRun();
+			this.running.addFeedback();
+			//System.out.println(this.running.getName()+"  "+this.running.getFeedback()+"    "+running.getRuntime());
+		}
+		this.time++;
+		this.allProcess();
+		contador++;
+		
 	}
 	private boolean verificaNovos() {
 		if(this.novos.size()>0) {
@@ -200,6 +260,9 @@ public class Escalonador {
 			return false;
 		}
 		if(this.running.endRun()) {
+			return false;
+		}
+		if(novos.size() > 0) {
 			return false;
 		}
 		if(this.running.getOnRun()<this.quant) {
